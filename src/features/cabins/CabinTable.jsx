@@ -36,8 +36,6 @@ function CabinTable() {
   } = useQuery({
     queryKey: ["cabins"],
     queryFn: getCabins,
-    staleTime: 60 * 1000, // 1 minute
-    refetchInterval: 60 * 1000, // 1 minute
   });
   if (isLoading)
     return (
@@ -45,7 +43,7 @@ function CabinTable() {
         <Spinner />
       </div>
     );
-
+  console.log("cabins", cabins);
   return (
     <Table role="table">
       <TableHeader role="row">
