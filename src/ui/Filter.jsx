@@ -37,25 +37,27 @@ const FilterButton = styled.button`
 
 function Filter({ filterField, options }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const handleUpdateURL = (value) => {
+  const currentFilter = searchParams.get(filterField) || options.at(0).value;
+
+  function handleClick(value) {
     searchParams.set(filterField, value);
+    if (searchParams.get("page")) searchParams.set("page", 1);
+
     setSearchParams(searchParams);
-  };
-  const activeFilter = searchParams.get(filterField) || options[0].value;
+  }
 
   return (
     <StyledFilter>
-      {options.map((filterField) => {
-        return (
-          <FilterButton
-            onClick={() => handleUpdateURL(filterField.value)}
-            active={filterField.value === activeFilter}
-            disabled={filterField.value === activeFilter}
-          >
-            {filterField.label}
-          </FilterButton>
-        );
-      })}
+      {options.map((option) => (
+        <FilterButton
+          key={option.value}
+          onClick={() => handleClick(option.value)}
+          active={option.value === currentFilter}
+          disabled={option.value === currentFilter}
+        >
+          {option.label}
+        </FilterButton>
+      ))}
     </StyledFilter>
   );
 }
